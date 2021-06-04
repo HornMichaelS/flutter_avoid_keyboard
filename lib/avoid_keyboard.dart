@@ -1,10 +1,48 @@
-library avoid_keyboard;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+/// A wrapper widget which will scroll out of the way when the keyboard is showing,
+/// given the keyboard overlaps an active input control which is a descendent of [child].
+///
+/// To use, first generate a list of [FocusNode] objects - these will be passed to both
+/// the wrapped input controls, and to [AvoidKeyboard] itself. [AvoidKeyboard] will then
+/// listen to changes on these nodes, and when one is focused, it will then determine
+/// whether the rect property on the [FocusNode] is overlapping with the bottom inset.
+/// If so, the view will be scrolled upward accordingly.
+///
+/// Example:
+/// ```dart
+/// class AvoidKeyboardExample extends StatelessWidget {
+///   // Initialize a focus node for each input control
+///   final focusNodes = [
+///     FocusNode(),
+///     FocusNode()
+///   ];
+///
+///   @override
+///   Widget build(BuildContext context) {
+///     return AvoidKeyboard(
+///       focusNodes: focusNodes, // Pass the FocusNodes to the AvoidKeyboard widget
+///       child: Column(
+///         children: [
+///           TextField(
+///             focusNode: focusNodes[0],
+///           ),
+///           TextField(
+///             focusNode: focusNodes[1],
+///           ),
+///         ],
+///       ),
+///     );
+///   }
+/// }
+/// ```
+///
 class AvoidKeyboard extends StatefulWidget {
+  /// A list of FocusNode objects (there should be one for each input control).
   final List<FocusNode> focusNodes;
+
+  /// The child to wrap.
   final Widget child;
 
   final _scrollController = ScrollController();

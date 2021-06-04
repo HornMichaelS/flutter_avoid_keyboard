@@ -1,7 +1,7 @@
 name: avoid_keyboard
 description: A package for helping with keyboard avoidance.
 version: 0.1.0
-homepage:
+repository: https://github.com/HornMichaelS/flutter_avoid_keyboard
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
