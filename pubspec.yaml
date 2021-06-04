@@ -1,6 +1,6 @@
 name: avoid_keyboard
 description: A package for helping with keyboard avoidance.
-version: 0.0.1
+version: 0.1.0
 homepage:
 
 environment:
