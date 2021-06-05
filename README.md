@@ -4,6 +4,10 @@ The `avoid_keyboard` package includes a widget (`AvoidKeyboard`) in which you ca
 
 Another advantage, is that AvoidKeyboard will only shift its contents in the case that the keyboard is actually overlapping the focused input control.
 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/6050603/120873229-25fb0800-c556-11eb-89fc-fb97957be784.gif">
+</p>
+
 ## Getting Started
 
 In order to function correctly, the wrapper widget will need references to the focus nodes for each wrapped input control:
