@@ -45,9 +45,13 @@ class AvoidKeyboard extends StatefulWidget {
   /// The child to wrap.
   final Widget child;
 
+  /// The space between the active input control and the top of the keyboard.
+  /// Must be >= 0.
+  final double? spacing;
+
   final _scrollController = ScrollController();
 
-  AvoidKeyboard({required this.focusNodes, required this.child});
+  AvoidKeyboard({required this.focusNodes, required this.child, this.spacing});
 
   @override
   _AvoidKeyboardState createState() => _AvoidKeyboardState();
@@ -56,6 +60,8 @@ class AvoidKeyboard extends StatefulWidget {
 class _AvoidKeyboardState extends State<AvoidKeyboard> {
   FocusNode? _currentlyFocusedNode;
   double _offset = 0;
+
+  double get _spacing => (widget.spacing ?? 0) < 0 ? 0 : widget.spacing ?? 0;
 
   @override
   void initState() {
@@ -87,7 +93,7 @@ class _AvoidKeyboardState extends State<AvoidKeyboard> {
           if (nodeBottom > viewPortBottom) {
             final overlap = nodeBottom - viewPortBottom;
 
-            _offset = currentScrollOffset + overlap + 40;
+            _offset = currentScrollOffset + overlap + _spacing;
             widget._scrollController.animateTo(
               _offset,
               duration: Duration(milliseconds: 200),
