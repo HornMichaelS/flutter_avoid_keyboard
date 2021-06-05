@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Avoid Keyboard Example',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -25,29 +25,21 @@ class MyApp extends StatelessWidget {
 }
 
 class AvoidKeyboardExample extends StatelessWidget {
-  final focusNodes = [
-    FocusNode(),
-    FocusNode(),
-    FocusNode(),
-    FocusNode(),
-    FocusNode(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return AvoidKeyboard(
-      focusNodes: focusNodes,
+      spacing: 40,
       child: Container(
         padding: EdgeInsets.all(30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: focusNodes
-              .map(
-                (node) => TextField(
-                  focusNode: node,
-                ),
-              )
-              .toList(),
+          children: [
+            TextField(),
+            TextField(),
+            TextField(),
+            TextField(),
+            TextField(),
+          ],
         ),
       ),
     );

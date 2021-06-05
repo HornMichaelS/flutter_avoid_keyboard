@@ -1,49 +1,37 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 /// A wrapper widget which will scroll out of the way when the keyboard is showing,
 /// given the keyboard overlaps an active input control which is a descendent of [child].
 ///
-/// To use, first generate a list of [FocusNode] objects - these will be passed to both
-/// the wrapped input controls, and to [AvoidKeyboard] itself. [AvoidKeyboard] will then
-/// listen to changes on these nodes, and when one is focused, it will then determine
-/// whether the rect property on the [FocusNode] is overlapping with the bottom inset.
-/// If so, the view will be scrolled upward accordingly.
+/// To use, simply wrap the elements which you want to avoid the keyboard within the
+/// [AvoidKeyboard] widget. The widget will automatically detect when input elements
+/// become active and scroll the viewport accordingly.
 ///
 /// Example:
 /// ```dart
 /// class AvoidKeyboardExample extends StatelessWidget {
-///   // Initialize a focus node for each input control
-///   final focusNodes = [
-///     FocusNode(),
-///     FocusNode()
-///   ];
-///
 ///   @override
 ///   Widget build(BuildContext context) {
 ///     return AvoidKeyboard(
-///       focusNodes: focusNodes, // Pass the FocusNodes to the AvoidKeyboard widget
 ///       child: Column(
 ///         children: [
-///           TextField(
-///             focusNode: focusNodes[0],
-///           ),
-///           TextField(
-///             focusNode: focusNodes[1],
-///           ),
+///           TextField(),
+///           TextField(),
 ///         ],
 ///       ),
 ///     );
 ///   }
 /// }
 /// ```
-///
 class AvoidKeyboard extends StatefulWidget {
-  /// A list of FocusNode objects (there should be one for each input control).
-  final List<FocusNode> focusNodes;
-
   /// The child to wrap.
   final Widget child;
+
+  @deprecated
+  final List<FocusNode>? focusNodes;
 
   /// The space between the active input control and the top of the keyboard.
   /// Must be >= 0.
@@ -51,86 +39,118 @@ class AvoidKeyboard extends StatefulWidget {
 
   final _scrollController = ScrollController();
 
-  AvoidKeyboard({required this.focusNodes, required this.child, this.spacing});
+  AvoidKeyboard({
+    required this.child,
+    @deprecated this.focusNodes,
+    this.spacing,
+  });
 
   @override
   _AvoidKeyboardState createState() => _AvoidKeyboardState();
 }
 
 class _AvoidKeyboardState extends State<AvoidKeyboard> {
-  FocusNode? _currentlyFocusedNode;
+  final _focusNode = FocusNode();
+
   double _offset = 0;
 
   double get _spacing => (widget.spacing ?? 0) < 0 ? 0 : widget.spacing ?? 0;
 
   @override
   void initState() {
+    _focusNode.addListener(() async {
+      if (_focusNode.hasFocus) {
+        _handleFocus();
+      } else {
+        _handleLoseFocus();
+      }
+    });
+
     super.initState();
-
-    createNodeListeners();
   }
 
-  @override
-  void didUpdateWidget(AvoidKeyboard oldWidget) {
-    super.didUpdateWidget(oldWidget);
+  void _handleFocus() async {
+    FocusNode primaryNode;
 
-    createNodeListeners();
-  }
-
-  void createNodeListeners() {
-    for (final focusNode in widget.focusNodes) {
-      focusNode.addListener(() async {
-        await Future.delayed(Duration(milliseconds: 100));
-
-        final currentScrollOffset = widget._scrollController.offset;
-
-        if (focusNode.hasFocus) {
-          _currentlyFocusedNode = focusNode;
-          final viewPortBottom = MediaQuery.of(context).size.height -
-              MediaQuery.of(context).viewInsets.bottom;
-          final nodeBottom = focusNode.rect.bottom;
-
-          if (nodeBottom > viewPortBottom) {
-            final overlap = nodeBottom - viewPortBottom;
-
-            _offset = currentScrollOffset + overlap + _spacing;
-            widget._scrollController.animateTo(
-              _offset,
-              duration: Duration(milliseconds: 200),
-              curve: Curves.easeInOut,
-            );
-          }
-        } else if (_currentlyFocusedNode == focusNode) {
-          _currentlyFocusedNode = null;
-          widget._scrollController.animateTo(
-            currentScrollOffset - _offset,
-            duration: Duration(milliseconds: 200),
-            curve: Curves.easeInOut,
-          );
-          _offset = 0;
-        }
-      });
+    try {
+      primaryNode = _focusNode.traversalDescendants
+          .firstWhere((element) => element.hasPrimaryFocus);
+    } catch (_) {
+      return;
     }
+
+    // Wait for the bottom inset to update
+    await waitForKeyboardFrameUpdate();
+
+    final viewPortBottom = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).viewInsets.bottom;
+    final nodeBottom = primaryNode.rect.bottom;
+
+    if (nodeBottom > viewPortBottom) {
+      final overlap = nodeBottom - viewPortBottom;
+      final currentScrollOffset = widget._scrollController.offset;
+
+      _offset = currentScrollOffset + overlap + _spacing;
+      widget._scrollController.animateTo(
+        _offset,
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  // The keyboard frame will not update immediately upon focus, therefore
+  // we need to see a change in the bottom inset, before scrolling the viewport.
+  Future<void> waitForKeyboardFrameUpdate() {
+    final completer = Completer();
+    final currentBottomInset = MediaQuery.of(context).viewInsets.bottom;
+
+    final timer = Timer.periodic(Duration(milliseconds: 50), (_) {
+      final newBottomInset = MediaQuery.of(context).viewInsets.bottom;
+
+      print("TIMER");
+
+      if (currentBottomInset != newBottomInset) {
+        completer.complete();
+      }
+    });
+
+    return completer.future
+        .timeout(Duration(milliseconds: 500))
+        .whenComplete(() => timer.cancel());
+  }
+
+  void _handleLoseFocus() async {
+    _offset = 0;
+
+    widget._scrollController.animateTo(
+      _offset,
+      duration: Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scrollable(
-      controller: widget._scrollController,
-      axisDirection: AxisDirection.down,
-      physics: NeverScrollableScrollPhysics(),
-      viewportBuilder: (context, offset) => Viewport(
-        offset: offset,
-        cacheExtentStyle: CacheExtentStyle.pixel,
-        slivers: [
-          SliverFillViewport(
-              delegate: SliverChildListDelegate.fixed([
-            Container(
-              child: widget.child,
-            ),
-            Container(),
-          ])),
-        ],
+    return Focus(
+      focusNode: _focusNode,
+      child: Scrollable(
+        controller: widget._scrollController,
+        axisDirection: AxisDirection.down,
+        physics: NeverScrollableScrollPhysics(),
+        viewportBuilder: (context, offset) => Viewport(
+          offset: offset,
+          cacheExtentStyle: CacheExtentStyle.pixel,
+          slivers: [
+            SliverFillViewport(
+                delegate: SliverChildListDelegate.fixed([
+              Container(
+                child: widget.child,
+              ),
+              Container(),
+            ])),
+          ],
+        ),
       ),
     );
   }

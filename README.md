@@ -10,28 +10,17 @@ Another advantage, is that AvoidKeyboard will only shift its contents in the cas
 
 ## Getting Started
 
-In order to function correctly, the wrapper widget will need references to the focus nodes for each wrapped input control:
+To get started, simply wrap the input controls (along with any surrounding portion of the which tree which should move out of the way):
 
 ```dart
 class AvoidKeyboardExample extends StatelessWidget {
-  // Initialize a focus node for each input control
-  final focusNodes = [
-    FocusNode(),
-    FocusNode()
-  ];
-
   @override
   Widget build(BuildContext context) {
     return AvoidKeyboard(
-      focusNodes: focusNodes, // Pass the FocusNodes to the AvoidKeyboard widget
       child: Column(
         children: [
-          TextField(
-            focusNode: focusNodes[0],
-          ),
-          TextField(
-            focusNode: focusNodes[1],
-          ),
+          TextField(),
+          TextField(),
         ],
       ),
     );
