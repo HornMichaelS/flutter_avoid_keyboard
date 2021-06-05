@@ -1,5 +1,5 @@
 name: avoid_keyboard
-description: A package for helping with keyboard avoidance.
+description: This package enables convenient keyboard avoidance. It can be used to enable keyboard avoidance for specific view regions, without compressing the entire view.
 version: 0.1.0-alpha
 repository: https://github.com/HornMichaelS/flutter_avoid_keyboard
 
