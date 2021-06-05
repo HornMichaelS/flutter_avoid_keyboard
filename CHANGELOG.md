@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2021-06-05
+
+### Added
+
+- Option to specify spacing between the top of the keyboard and the bottom of the 
+  focused text field.
+
+### Changed
+
+- No longer require `focusNodes` field on `AvoidKeyboard` widget.
+
+### Fixed
+
+- Fixed bug in detecting when the focused field changed from one active node to another.
+- Ordering of Changelog entries
+
 ## [0.1.1] - 2021-06-05
 
 ### Changed
@@ -21,3 +37,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [0.1.0]: https://github.com/HornMichaelS/flutter_avoid_keyboard/releases/tag/v0.1.0-alpha
 [0.1.1]: https://github.com/HornMichaelS/flutter_avoid_keyboard/releases/tag/v0.1.1-alpha
+[0.2.0]: https://github.com/HornMichaelS/flutter_avoid_keyboard/releases/tag/v0.2.0-alpha
