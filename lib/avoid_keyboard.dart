@@ -108,8 +108,6 @@ class _AvoidKeyboardState extends State<AvoidKeyboard> {
     final timer = Timer.periodic(Duration(milliseconds: 50), (_) {
       final newBottomInset = MediaQuery.of(context).viewInsets.bottom;
 
-      print("TIMER");
-
       if (currentBottomInset != newBottomInset) {
         completer.complete();
       }
