@@ -7,11 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-No unreleased changes.
+### Fixed
+
+- Formatting error in Changelog
 
 ## [0.2.1] - 2021-06-05
 
-## Fixed
+### Fixed
 
 - Typo in Readme.
 - Removed extraneous print statement.
