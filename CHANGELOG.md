@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Formatting error in Changelog
+- Formatting error in Changelog.
+- Layout bug related to positioning a viewport within an unsized parent.
+  - Use `AnimatedContainer` with `transform`, rather than a `Scrollable` widget.
 
 ## [0.2.1] - 2021-06-05
 

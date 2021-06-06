@@ -37,8 +37,6 @@ class AvoidKeyboard extends StatefulWidget {
   /// Must be >= 0.
   final double? spacing;
 
-  final _scrollController = ScrollController();
-
   AvoidKeyboard({
     required this.child,
     @deprecated this.focusNodes,
@@ -88,14 +86,10 @@ class _AvoidKeyboardState extends State<AvoidKeyboard> {
 
     if (nodeBottom > viewPortBottom) {
       final overlap = nodeBottom - viewPortBottom;
-      final currentScrollOffset = widget._scrollController.offset;
 
-      _offset = currentScrollOffset + overlap + _spacing;
-      widget._scrollController.animateTo(
-        _offset,
-        duration: Duration(milliseconds: 200),
-        curve: Curves.easeInOut,
-      );
+      setState(() {
+        _offset = _offset + overlap + _spacing;
+      });
     }
   }
 
@@ -119,36 +113,20 @@ class _AvoidKeyboardState extends State<AvoidKeyboard> {
   }
 
   void _handleLoseFocus() async {
-    _offset = 0;
-
-    widget._scrollController.animateTo(
-      _offset,
-      duration: Duration(milliseconds: 200),
-      curve: Curves.easeInOut,
-    );
+    setState(() {
+      _offset = 0;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Focus(
       focusNode: _focusNode,
-      child: Scrollable(
-        controller: widget._scrollController,
-        axisDirection: AxisDirection.down,
-        physics: NeverScrollableScrollPhysics(),
-        viewportBuilder: (context, offset) => Viewport(
-          offset: offset,
-          cacheExtentStyle: CacheExtentStyle.pixel,
-          slivers: [
-            SliverFillViewport(
-                delegate: SliverChildListDelegate.fixed([
-              Container(
-                child: widget.child,
-              ),
-              Container(),
-            ])),
-          ],
-        ),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 160),
+        curve: Curves.easeInOut,
+        transform: Matrix4.translationValues(0, -_offset, 0),
+        child: widget.child,
       ),
     );
   }

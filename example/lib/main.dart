@@ -32,7 +32,7 @@ class AvoidKeyboardExample extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(30),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(),
             TextField(),
