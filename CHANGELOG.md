@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Wrapped the view in a `ClipRect` so that the contents would be clipped when they move.
+  - This prevents the contents of the view from colliding with surrounding views which
+    aren't wrapped.
+
 ### Fixed
 
 - Formatting error in Changelog.

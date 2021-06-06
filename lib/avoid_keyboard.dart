@@ -81,14 +81,15 @@ class _AvoidKeyboardState extends State<AvoidKeyboard> {
     await waitForKeyboardFrameUpdate();
 
     final viewPortBottom = MediaQuery.of(context).size.height -
-        MediaQuery.of(context).viewInsets.bottom;
+        MediaQuery.of(context).viewInsets.bottom -
+        _spacing;
     final nodeBottom = primaryNode.rect.bottom;
 
     if (nodeBottom > viewPortBottom) {
       final overlap = nodeBottom - viewPortBottom;
 
       setState(() {
-        _offset = _offset + overlap + _spacing;
+        _offset = overlap;
       });
     }
   }
@@ -122,11 +123,13 @@ class _AvoidKeyboardState extends State<AvoidKeyboard> {
   Widget build(BuildContext context) {
     return Focus(
       focusNode: _focusNode,
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 160),
-        curve: Curves.easeInOut,
-        transform: Matrix4.translationValues(0, -_offset, 0),
-        child: widget.child,
+      child: ClipRect(
+        child: AnimatedContainer(
+          duration: Duration(milliseconds: 160),
+          curve: Curves.easeInOut,
+          transform: Matrix4.translationValues(0, -_offset, 0),
+          child: widget.child,
+        ),
       ),
     );
   }
