@@ -10,7 +10,7 @@ Another advantage, is that AvoidKeyboard will only shift its contents in the cas
 
 ## Getting Started
 
-To get started, simply wrap the input controls (along with any surrounding portion of the which tree which should move out of the way):
+To get started, simply wrap the input controls (along with any surrounding portion of the widget tree which should move out of the way):
 
 ```dart
 class AvoidKeyboardExample extends StatelessWidget {
