@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+No unreleased changes.
+
+## [0.2.2] - 2021-06-06
+
 ### Changed
 
 - Wrapped the view in a `ClipRect` so that the contents would be clipped when they move.
@@ -60,4 +64,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.1.1]: https://github.com/HornMichaelS/flutter_avoid_keyboard/releases/tag/v0.1.1-alpha
 [0.2.0]: https://github.com/HornMichaelS/flutter_avoid_keyboard/releases/tag/v0.2.0-alpha
 [0.2.1]: https://github.com/HornMichaelS/flutter_avoid_keyboard/releases/tag/v0.2.1-alpha
-[Unreleased]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.2.1-alpha...HEAD
+[0.2.1]: https://github.com/HornMichaelS/flutter_avoid_keyboard/releases/tag/v0.2.2
+[Unreleased]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.2.2...HEAD
