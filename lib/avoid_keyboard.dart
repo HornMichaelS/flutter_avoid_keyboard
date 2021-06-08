@@ -78,7 +78,11 @@ class _AvoidKeyboardState extends State<AvoidKeyboard> {
     }
 
     // Wait for the bottom inset to update
-    await waitForKeyboardFrameUpdate();
+    try {
+      await waitForKeyboardFrameUpdate();
+    } catch (_) {
+      // Catch possible timeout error
+    }
 
     final viewPortBottom = MediaQuery.of(context).size.height -
         MediaQuery.of(context).viewInsets.bottom -
