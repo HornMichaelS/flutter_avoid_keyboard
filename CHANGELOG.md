@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+No unreleased changes.
+
+## [0.2.3]
+
 ### Added
 
 - Github issue templates
@@ -71,4 +75,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.2.0]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.1.1-alpha...v0.2.0-alpha
 [0.2.1]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.2.0-alpha...v0.2.1-alpha
 [0.2.2]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.2.1-alpha...v0.2.2
-[Unreleased]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.2.2...HEAD
+[0.2.3]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.2.2...v0.2.3
+[Unreleased]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.2.3...HEAD
