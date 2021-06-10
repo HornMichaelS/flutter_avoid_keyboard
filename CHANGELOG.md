@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No unreleased changes.
 
+## [0.3.0] - 2021-06-10
+
+### Added
+
+- Now the package responds to focus events while the keyboard is up, so now, if you have a group of fields which can be traversed
+  by pressing "next" on the keyboard, for example, each one will scroll into view as it is focused.
+- Added badges to readme
+
+### Changed
+
+- Updated example app to exhibit focus node traversal.
+
+### Fixed
+
+- Fixed a couple of issues with the changelog.
+
 ## [0.2.3] - 2021-06-08
 
 ### Added
@@ -76,4 +92,5 @@ No unreleased changes.
 [0.2.1]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.2.0-alpha...v0.2.1-alpha
 [0.2.2]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.2.1-alpha...v0.2.2
 [0.2.3]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.2.2...v0.2.3
-[Unreleased]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.2.3...HEAD
+[0.3.0]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.2.3...v0.3.0
+[Unreleased]: https://github.com/HornMichaelS/flutter_avoid_keyboard/compare/v0.3.0...HEAD
