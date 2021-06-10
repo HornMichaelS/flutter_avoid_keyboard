@@ -1,3 +1,4 @@
+
 # avoid_keyboard
 
 [![pub version](https://img.shields.io/pub/v/avoid_keyboard)](https://pub.dev/packages/avoid_keyboard)
@@ -10,7 +11,7 @@ The `avoid_keyboard` package includes a widget (`AvoidKeyboard`) in which you ca
 Another advantage, is that AvoidKeyboard will only shift its contents in the case that the keyboard is actually overlapping the focused input control.
 
 <p align="center">
-  <img height="450" src="https://user-images.githubusercontent.com/6050603/120873229-25fb0800-c556-11eb-89fc-fb97957be784.gif">
+  <img alt="demonstration gif" height="450" src="https://user-images.githubusercontent.com/6050603/121590626-61318700-c9ed-11eb-86f2-0da2a3dc025b.gif">
 </p>
 
 ## Getting Started
