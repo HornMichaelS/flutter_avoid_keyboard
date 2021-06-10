@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -47,24 +48,32 @@ class AvoidKeyboard extends StatefulWidget {
   _AvoidKeyboardState createState() => _AvoidKeyboardState();
 }
 
-class _AvoidKeyboardState extends State<AvoidKeyboard> {
+class _AvoidKeyboardState extends State<AvoidKeyboard>
+    with AfterLayoutMixin<AvoidKeyboard> {
   final _focusNode = FocusNode();
 
   double _offset = 0;
 
+  bool _hasFocus = false;
+
   double get _spacing => (widget.spacing ?? 0) < 0 ? 0 : widget.spacing ?? 0;
 
   @override
-  void initState() {
+  void afterFirstLayout(BuildContext context) {
     _focusNode.addListener(() async {
-      if (_focusNode.hasFocus) {
-        _handleFocus();
-      } else {
+      if (!_focusNode.hasFocus) {
         _handleLoseFocus();
       }
     });
 
-    super.initState();
+    for (final node in _focusNode.traversalDescendants) {
+      node.addListener(() {
+        if (node.hasFocus) {
+          print("Handle focus");
+          _handleFocus();
+        }
+      });
+    }
   }
 
   void _handleFocus() async {
@@ -77,9 +86,14 @@ class _AvoidKeyboardState extends State<AvoidKeyboard> {
       return;
     }
 
-    // Wait for the bottom inset to update
     try {
-      await waitForKeyboardFrameUpdate();
+      // Wait for the bottom inset to update, unless another
+      // child node has already been focused.
+      if (!_hasFocus) {
+        await waitForKeyboardFrameUpdate();
+      } else {
+        await Future.delayed(Duration(milliseconds: 50)).catchError((_) {});
+      }
     } catch (_) {
       // Catch possible timeout error
     }
@@ -93,7 +107,8 @@ class _AvoidKeyboardState extends State<AvoidKeyboard> {
       final overlap = nodeBottom - viewPortBottom;
 
       setState(() {
-        _offset = overlap;
+        _offset += overlap;
+        _hasFocus = true;
       });
     }
   }
@@ -113,13 +128,14 @@ class _AvoidKeyboardState extends State<AvoidKeyboard> {
     });
 
     return completer.future
-        .timeout(Duration(milliseconds: 500))
+        .timeout(Duration(milliseconds: 100))
         .whenComplete(() => timer.cancel());
   }
 
   void _handleLoseFocus() async {
     setState(() {
       _offset = 0;
+      _hasFocus = false;
     });
   }
 

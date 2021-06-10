@@ -32,12 +32,21 @@ class AvoidKeyboardExample extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(30),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            TextField(),
-            TextField(),
-            TextField(),
-            TextField(),
+            TextField(textInputAction: TextInputAction.next),
+            TextField(
+              textInputAction: TextInputAction.next,
+              autocorrect: false,
+            ),
+            TextField(
+              textInputAction: TextInputAction.next,
+              autocorrect: false,
+            ),
+            TextField(
+              textInputAction: TextInputAction.next,
+              autocorrect: false,
+            ),
             TextField(),
           ],
         ),
